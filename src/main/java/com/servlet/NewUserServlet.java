@@ -1,4 +1,4 @@
-package badr;
+package com.servlet;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -16,33 +16,33 @@ import jakarta.servlet.http.HttpSession;
 /**
  * Servlet implementation class ajouter
  */
-@WebServlet("/ajouter")
-public class ajouter extends HttpServlet {
+@WebServlet("/NewUserServlet")
+public class NewUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		String cne =request.getParameter("cne");
-			String nom =request.getParameter("nom");
-			String prenom =request.getParameter("prenom");
+		//if (session.getAttribute("login")!=null){
+			String name =request.getParameter("name");
+			String email =request.getParameter("email");
+			String password =request.getParameter("password");
 			
 			
-			String url =  "jdbc:mysql://localhost/etudiant";
+			String url =  "jdbc:mysql://localhost/ecommerce_cart";
 			String user ="root";
 			String Pwd = "badr";
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
 				Connection con = DriverManager.getConnection(url,user,Pwd);
 			//	
-				PreparedStatement pst =con.prepareStatement("INSERT INTO etudiant(CNE,NOM,PRENOM) VALUES(?,?,?)");
-				pst.setString(1,cne);
-				pst.setString(2, nom);
-				pst.setString(3, prenom);
-				
+				PreparedStatement pst =con.prepareStatement("INSERT INTO users(name,email,password) VALUES(?,?,?)");
+				pst.setString(1, name);
+				pst.setString(2, email);
+				pst.setString(3, password);
 				
 				 pst.executeUpdate();
-				response.sendRedirect("index.jsp");
+				response.sendRedirect("login.jsp");
 				pst.close();
 				
 				//}
@@ -51,8 +51,8 @@ public class ajouter extends HttpServlet {
 				System.out.println(e);
 			}
 			
+		}//else response.sendRedirect("login.jsp");
 		
-		
-	}
+	//}
 
-}	
+}
